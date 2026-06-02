@@ -13,7 +13,7 @@ export const API = isLocal
   : {
       auth: 'https://dnd-auth.vercel.app/api',
       races: 'https://dnd-races.vercel.app/api',
-      spells: 'https://dnd-spells.vercel.app/api',
+      spells: 'https://dnd-spells-beige.vercel.app/api',
       feats: 'https://dnd-feats.vercel.app/api',
       characters: 'https://dnd-characters.vercel.app/api',
     }
