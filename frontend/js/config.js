@@ -1,3 +1,6 @@
+// Локально — порты dev-серверов. В production — домены из Vercel → Settings → Domains
+// (без /api в конце домена; /api уже в строках ниже)
+
 const isLocal =
   window.location.hostname === 'localhost' ||
   window.location.hostname === '127.0.0.1'
@@ -15,5 +18,5 @@ export const API = isLocal
       races: 'https://dnd-races.vercel.app/api',
       spells: 'https://dnd-spells-beige.vercel.app/api',
       feats: 'https://dnd-feats.vercel.app/api',
-      characters: 'https://dnd-characters-sigma.vercel.app/api',
+      characters: 'https://dnd-characters.vercel.app/api',
     }
