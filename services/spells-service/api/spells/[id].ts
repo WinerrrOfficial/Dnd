@@ -1,19 +1,26 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import sql from '../../lib/db'
-import { verifyToken } from '../../lib/jwt'
-import { handlePreflight, setCors } from '../../lib/cors'
-import { extractToken } from '../../lib/token'
+import sql from '../lib/db'
+import { verifyToken } from '../lib/jwt'
+import { handlePreflight, setCors } from '../lib/cors'
+import { extractToken } from '../lib/token'
+import { getRouteId } from '../lib/route'
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (handlePreflight(req, res)) return
   setCors(res)
 
-  const { id } = req.query
+  const id = getRouteId(req.query)
+  if (!id) return res.status(400).json({ error: 'Spell ID required' })
 
   if (req.method === 'GET') {
-    const spell = await sql`SELECT * FROM spells WHERE id = ${id as string}`
-    if (spell.length === 0) return res.status(404).json({ error: 'Not found' })
-    return res.status(200).json(spell[0])
+    try {
+      const spell = await sql`SELECT * FROM spells WHERE id = ${id}`
+      if (spell.length === 0) return res.status(404).json({ error: 'Not found' })
+      return res.status(200).json(spell[0])
+    } catch (e) {
+      console.error('GET spell:', e)
+      return res.status(500).json({ error: 'Database error' })
+    }
   }
 
   if (req.method === 'DELETE') {
@@ -29,7 +36,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const result = await sql`
       DELETE FROM spells
-      WHERE id = ${id as string} AND source = 'user' AND created_by = ${payload.userId}
+      WHERE id = ${id} AND source = 'user' AND created_by = ${payload.userId}
       RETURNING id
     `
 

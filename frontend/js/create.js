@@ -12,11 +12,22 @@ document.addEventListener('DOMContentLoaded', async () => {
   const levelInput = document.getElementById('char-level')
 
   try {
-    const [races, spells, feats] = await Promise.all([
-      apiGet('races', '/races'),
-      apiGet('spells', '/spells'),
-      apiGet('feats', '/feats'),
-    ])
+    let races, spells, feats
+    try {
+      races = await apiGet('races', '/races')
+    } catch (e) {
+      throw { error: `Расы — ${e.error || 'сервис недоступен'}` }
+    }
+    try {
+      spells = await apiGet('spells', '/spells')
+    } catch (e) {
+      throw { error: `Заклинания — ${e.error || 'сервис недоступен'}` }
+    }
+    try {
+      feats = await apiGet('feats', '/feats')
+    } catch (e) {
+      throw { error: `Фокусы — ${e.error || 'сервис недоступен'}` }
+    }
 
     allSpells = spells
     allFeats = feats

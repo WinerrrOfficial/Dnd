@@ -4,12 +4,14 @@ import { verifyToken } from '../lib/jwt'
 import { handlePreflight, setCors } from '../lib/cors'
 import { extractToken } from '../lib/token'
 import { fetchFeat, fetchRace, fetchSpell } from '../lib/fetch'
+import { getRouteId } from '../lib/route'
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (handlePreflight(req, res)) return
   setCors(res)
 
-  const { id } = req.query
+  const id = getRouteId(req.query)
+  if (!id) return res.status(400).json({ error: 'Character ID required' })
 
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' })
@@ -27,7 +29,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const chars = await sql`
     SELECT * FROM characters
-    WHERE id = ${id as string} AND user_id = ${payload.userId}
+    WHERE id = ${id} AND user_id = ${payload.userId}
   `
 
   if (chars.length === 0) {
@@ -45,10 +47,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const spellLinks = await sql`
-    SELECT spell_id FROM character_spells WHERE character_id = ${id as string}
+    SELECT spell_id FROM character_spells WHERE character_id = ${id}
   `
   const featLinks = await sql`
-    SELECT feat_id FROM character_feats WHERE character_id = ${id as string}
+    SELECT feat_id FROM character_feats WHERE character_id = ${id}
   `
 
   const spells = []
@@ -57,7 +59,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const spell = await fetchSpell(token, row.spell_id)
       if (!(spell as { error?: string }).error) spells.push(spell)
     } catch {
-      /* skip unavailable */
+      /* skip */
     }
   }
 

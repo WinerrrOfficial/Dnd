@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { verifyToken } from '../lib/jwt'
-import { handlePreflight, setCors } from '../lib/cors'
-import { extractToken } from '../lib/token'
+import { verifyToken } from './lib/jwt'
+import { handlePreflight, setCors } from './lib/cors'
+import { extractToken } from './lib/token'
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (handlePreflight(req, res)) return
