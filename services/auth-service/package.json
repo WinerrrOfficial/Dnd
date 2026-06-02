@@ -1,0 +1,20 @@
+{
+  "name": "dnd-auth-service",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vercel dev --listen 3001"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^0.9.5",
+    "bcryptjs": "^2.4.3",
+    "jose": "^5.9.6"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^22.10.2",
+    "@vercel/node": "^3.2.29",
+    "typescript": "^5.7.2",
+    "vercel": "^39.4.2"
+  }
+}

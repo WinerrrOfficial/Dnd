@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Вход — D&D</title>
+  <link rel="stylesheet" href="css/main.css" />
+</head>
+<body>
+  <div class="auth-box">
+    <h1>Вход</h1>
+    <p class="muted">Лист персонажа D&D</p>
+    <form id="login-form">
+      <div class="form-group">
+        <label for="username">Имя пользователя</label>
+        <input type="text" id="username" required autocomplete="username" />
+      </div>
+      <div class="form-group">
+        <label for="password">Пароль</label>
+        <input type="password" id="password" required autocomplete="current-password" />
+      </div>
+      <p id="error" class="error" hidden></p>
+      <button type="submit" class="btn">Войти</button>
+    </form>
+    <p class="muted" style="margin-top: 1.5rem">
+      Нет аккаунта? <a href="register.html">Регистрация</a>
+    </p>
+  </div>
+  <script type="module">
+    import { initLoginForm } from './js/auth.js'
+    initLoginForm()
+  </script>
+</body>
+</html>

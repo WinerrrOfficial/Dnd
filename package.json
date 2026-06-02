@@ -1,0 +1,9 @@
+{
+  "name": "dnd-microservices",
+  "version": "1.0.0",
+  "private": true,
+  "description": "D&D character sheet — 5 microservices + static frontend",
+  "scripts": {
+    "install:all": "npm install --prefix services/auth-service && npm install --prefix services/races-service && npm install --prefix services/spells-service && npm install --prefix services/feats-service && npm install --prefix services/characters-service"
+  }
+}
